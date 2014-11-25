@@ -3,6 +3,47 @@
 </head>
 
 <body>
-    <div id="map"> </div>
+<!-- Button trigger modal -->
+<header>
+    <span class="glyphicon glyphicon-align-justify pull-right" aria-hidden="true" data-toggle="modal" data-target="#myModal"></span>
+    <span class="header-title" data-toggle="modal" data-target="#myModal">Hospital Finder</span>
+</header>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">User Profile
+            <br />
+            <small> Help us find the best hospital for you. </small>
+        </h4>
+      </div>
+      <div class="modal-body">
+      {{> profile }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="map"> </div>
+
 </body>
 
+<template name="profile">
+  <form role="form">
+      <div class="form-group">
+          <input type="text" class="form-control" id="age" placeholder="Age">
+      </div>
+      <div class="form-group">
+          <input type="text" class="form-control" id="zip" placeholder="Zip Code">
+      </div>
+      <div class="form-group">
+          <input type="text" class="form-control" id="immunity" placeholder="Immunodeficiency Level">
+      </div>
+  </form>
+</template>

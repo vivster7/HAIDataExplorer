@@ -3,3 +3,22 @@ html, body, #map {
     height: 100%;
     width: 100%;
 }
+
+input.form-control {
+    width: 90%;
+}
+
+header {
+    color: #FFF;
+    background-color: #428bca;
+}
+
+span.glyphicon:hover {
+    color: #000;
+}
+
+.header-title, span.glyphicon {
+    cursor: default;
+    margin: 12px 1px 22px 25px;
+    font-size: 30px;
+}

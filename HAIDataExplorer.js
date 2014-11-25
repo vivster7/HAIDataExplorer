@@ -37,6 +37,35 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.profile.helpers({
+    age: function(){
+      return Session.get("age");
+    },
+
+    zip: function() {
+      return Session.get("zip");
+    },
+
+    immunity: function() {
+      return Session.get("immunity");
+    }
+  });
+
+  Template.profile.events({
+    'keypress #age': function(evt) {
+      Session.set('age', evt.currentTarget.value);
+    },
+
+    'keypress #zip': function(evt) {
+      Session.set('zip', evt.currentTarget.value);
+    },
+
+    'keypress #immunity': function(evt) {
+      Session.set('immunity', evt.currentTarget.value);
+    }
+
+  });
+
 };
 
 
