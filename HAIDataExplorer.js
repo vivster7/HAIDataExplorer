@@ -1,6 +1,13 @@
 HAI = new Mongo.Collection("hai");
+ZIP = new Mongo.Collection("zip");
 
 if (Meteor.isClient) {
+
+  //Show modal on landing page
+  Meteor.startup(function() {
+    $('.modal').modal('show')
+  });
+
   //Subscribe to hai data
   Meteor.subscribe('hai', function() {
     HAI.find({}).forEach(function(hospital) {
@@ -10,8 +17,10 @@ if (Meteor.isClient) {
         .addTo(map)
         .bindPopup(hospital.name + "<br />" + "Score: " + String(hospital.score));
     });
-
   });
+
+  // Subscribe to ZIP
+  Meteor.subscribe('zip');
 
   //load Mapbox
   Mapbox.load(['minimap']);
@@ -27,41 +36,31 @@ if (Meteor.isClient) {
       }
   };
 
+  Tracker.autorun(function() {
+    Meteor.subscribe('zip', Session.get('zip'));
+    zipcode = ZIP.findOne({zip: Session.get('zip')});
+    if (zipcode) {
+      lat = zipcode.lat;
+      lon = zipcode.lon;
+      map.setView([lat,lon], 8);
+     }
+  })
+
   Tracker.autorun(function (computation) {
+
     if (Mapbox.loaded()) {
       L.mapbox.accessToken = config.token;
       map = L.mapbox.map(config.containerId, config.projectId);
       map.setView(config.defaults.alabama, config.defaults.zoom);
+      window.map = map;
 
       computation.stop();
     }
   });
 
-  Template.profile.helpers({
-    age: function(){
-      return Session.get("age");
-    },
-
-    zip: function() {
-      return Session.get("zip");
-    },
-
-    immunity: function() {
-      return Session.get("immunity");
-    }
-  });
-
   Template.profile.events({
-    'keypress #age': function(evt) {
-      Session.set('age', evt.currentTarget.value);
-    },
-
-    'keypress #zip': function(evt) {
-      Session.set('zip', evt.currentTarget.value);
-    },
-
-    'keypress #immunity': function(evt) {
-      Session.set('immunity', evt.currentTarget.value);
+    'click #saveProfile': function(evt) {
+      Session.set( 'zip', $('#zip').val() );
     }
 
   });
@@ -79,9 +78,14 @@ if (Meteor.isServer) {
     });
   });
 
+  //Publish zip code data
+  Meteor.publish('zip', function(zip) {
+    return ZIP.find({zip:zip});
+  });
+
   Meteor.startup(function () {
 
-    // Populate db if empty
+    // Populate db with HAI if empty
     if (HAI.find().count() === 0) {
 
       var hospital_data = JSON.parse(Assets.getText('hosp.json'));
@@ -95,34 +99,18 @@ if (Meteor.isServer) {
           lon: +hospital[23][2]
         });
       });
+    }
 
-      // var hospitals = [
-      //   {name: "SOUTHEAST ALABAMA MEDICAL CENTER",
-      //    zip: "36301",
-      //    measure_id: "HAI_1_SIR",
-      //    score: "1.378",
-      //    lat: "31.215",
-      //    lon: "-85.361"
-      //   },
-      //   {name: "MARSHALL MEDICAL CENTER SOUTH",
-      //    zip: "35957",
-      //    measure_id: "HAI_2_SIR",
-      //    score: "0.548",
-      //    lat: "34.221",
-      //    lon: "-86.159"
-      //   }
-      // ];
-
-      // _.each(hospitals, function(hospital) {
-      //   HAI.insert({
-      //     name: hospital.name,
-      //     zip: +hospital.zip,
-      //     measure_id: hospital.measure_id,
-      //     score: +hospital.score,
-      //     lat: +hospital.lat,
-      //     lon: +hospital.lon
-      //   });
-      // });
+    //Populate db with zip
+    if ( ZIP.find().count() === 0 ) {
+      var zip_data = JSON.parse(Assets.getText('zip.json'));
+      _.each(zip_data, function(zipcode) {
+        ZIP.insert({
+          zip: zipcode.zip,
+          lat: zipcode.latitude,
+          lon: zipcode.longitude
+        });
+      });
     }
 
   });
