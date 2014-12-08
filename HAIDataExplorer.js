@@ -20,7 +20,7 @@ if (Meteor.isClient) {
   });
 
   // Subscribe to ZIP
-  Meteor.subscribe('zip');
+  // Meteor.subscribe('zip');
 
   //load Mapbox
   Mapbox.load(['minimap']);
