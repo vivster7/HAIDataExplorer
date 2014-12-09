@@ -4,12 +4,13 @@ ZIP = new Mongo.Collection("zip");
 
 if (Meteor.isClient) {
   
-  var HAI_1_IND = 1106.94 / 1574;
-  var HAI_2_IND = 2333.22 / 1899;
-  var HAI_3_IND = 1778.69 / 1637;
-  var HAI_4_IND = 747.044 / 401;
-  var HAI_5_IND = 1595.41 / 1373;
-  var HAI_6_IND = 2531.17/ 2784;
+  var HAI_1_IND = (1106.94 / 1574) + 0.5043827;
+  var HAI_2_IND = (2333.22 / 1899); + 0.8529843
+  var HAI_3_IND = (1778.69 / 1637); + 0.7230413
+  var HAI_4_IND = (747.044 / 401); + 0.95587
+  var HAI_5_IND = (1595.41 / 1373); + 0.8025377
+  var HAI_6_IND = (2531.17/ 2784); + 0.4947708
+  var NURSE_IND = 22.64144 //+ 4.375094
 
   //Default zip in Session to initialize without errors. 
   // Session.set('zip', '46311')
@@ -55,7 +56,7 @@ if (Meteor.isClient) {
       Session.set('lon', zipcode.lon)
       lat = zipcode.lat;
       lon = zipcode.lon;
-      map.setView([lat,lon], 11);
+      map.setView([lat,lon], 8);
      }
 
     //Subscribe to hospitals data
@@ -72,7 +73,7 @@ if (Meteor.isClient) {
         markerLayer.addLayer(
           L.circleMarker([hospital.lat, hospital.lon], { color: 'red' })
           .setRadius(6)
-          .bindPopup(hospital.name + "<br />" + "Score: " + String(hospital.score))
+          .bindPopup(hospital.name)
         ).addTo(map);
       });
     });
@@ -157,8 +158,18 @@ if (Meteor.isClient) {
         is_sig = hai_6.score < HAI_6_IND ? "green" : "red";
       }
       return is_sig || "yellow";
+    },
+
+    nurse_1_color: function() {
+      var nurse_1 = HAI.findOne({name: this.name, hcahps_measure_id:'H_COMP_4_U_P'});
+      var is_sig;
+      if (nurse_1) {
+        is_sig = nurse_1.hcahps_answer_percent < NURSE_IND ? "green" : "red";
+      }
+      return is_sig || "yellow";
     }
-  })
+
+  });
 
   Template.profile.events({
     'click #saveProfile': function(evt) {
@@ -194,7 +205,7 @@ if (Meteor.isServer) {
       gastro: { $exists:true },
       nephrology: { $exists:true },
       pulmonology: { $exists:true },
-      urology: {$exists:true }
+      urology: { $exists:true }
     });
   });
 
@@ -204,6 +215,8 @@ if (Meteor.isServer) {
   });
 
   Meteor.startup(function () {
+
+
 
  // Populate db with HOSPITALS if empty
     if (HOSPITALS.find().count() === 0) {
@@ -244,7 +257,19 @@ if (Meteor.isServer) {
         }
       });
 
-      
+    // Load HCAHPS data
+    console.log('load hcahps data');
+    var hcahps_data = JSON.parse(Assets.getText('hcahps.json'));
+    _.each(hcahps_data, function(hcahps) {
+
+      HCAHPS.insert({ name: hcahps.hospital_name,
+                      hcahps_measure_id: hcahps.hcahps_measure_id, 
+                      hcahps_answer_percent: hcahps.hcahps_answer_percent }
+                );
+
+    });
+
+
     }
 
     //Populate db with zip
@@ -261,11 +286,14 @@ if (Meteor.isServer) {
 
     if (HAI.find().count() === 0) {
 
+
+
+
       console.log("starting cancer data upload");
 
         var cancer_data = JSON.parse(Assets.getText('cancer.json'));
         _.each(cancer_data, function(hospital) {
-          hospital_name = hospital.hospital_name.toUpperCase()
+          hospital_name = hospital.hospital_name.toUpperCase();
 
           HOSPITALS.update({ name: hospital_name },
                      { $set: { cancer: hospital.score } },
