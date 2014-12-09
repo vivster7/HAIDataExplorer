@@ -1,5 +1,6 @@
 /* CSS declarations go here */
 html, body, #map {
+    position: relative;
     height: 100%;
     width: 100%;
 }
@@ -30,10 +31,33 @@ span.glyphicon:hover {
     left:0px;
     min-height: 100%;
     width: 350px;
-    background-color: #428bca;
+    background-color: #ecf0f1;
     opacity: 0.8;
+    border: 15px;
+    border-style: solid;
+    border-color: #428bca;
 }
 
 .leaflet-left .leaflet-control {
-    margin-left:360px !important;
+    margin-left:395px !important;
+}
+
+
+
+.hospital {
+    background-color: #ecf0f1;
+    margin: 10px 15px 50px 15px;
+}
+
+.score {
+    margin-right: 20px;
+    font-size: 2em;
+    color:#7f8c8d;
+    float: left;
+}
+
+span.glyphicon {
+    margin-left: 5px;
+    margin-top: 10px; 
+    font-size: 1.0em;
 }

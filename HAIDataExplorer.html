@@ -34,15 +34,20 @@
   </div>
   <div class="modal-body">
     <form role="form">
-        <div class="form-group">
+<!--         <div class="form-group">
             <input type="text" class="form-control" id="age" placeholder="Age">
-        </div>
+        </div> -->
         <div class="form-group">
             <input type="text" class="form-control" id="zip" placeholder="Zip Code">
         </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="immunity" placeholder="Immunodeficiency Level">
-        </div>
+        <select id='disease_type' class="form-control">
+            <option value="cancer">Cancer</option>
+            <option value="cardiology">Cardiology</option>
+            <option value="gastrology">Gastrology</option>
+            <option value="nephrology">Nephrology</option>
+            <option value="pulmonology">Pulmonology</option>
+            <option value="urology">Urology</option>
+        </select>
     </form>
   </div> 
   <div class="modal-footer">
@@ -52,5 +57,24 @@
 
 <template name="sidebar">
   <div id="sidebar">
+    {{#each hospitals}}
+      {{> hospital}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="hospital">
+  <div class="hospital">
+    <h4>{{hospital_name}}</h4>
+      <p class="score"><strong>{{score}}</strong></p>
+      <div class="icons pull-right">
+        <span class="glyphicon glyphicon-warning-sign" style="color:{{hai_1_color}}" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-warning-sign" style="color:{{hai_2_color}}" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-warning-sign" style="color:{{hai_3_color}}" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-warning-sign" style="color:{{hai_4_color}}" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-warning-sign" style="color:{{hai_5_color}}" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-warning-sign" style="color:{{hai_6_color}}" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+      </div>
   </div>
 </template>

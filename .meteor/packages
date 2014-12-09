@@ -4,8 +4,9 @@
 # but you can also edit it by hand.
 
 meteor-platform
-insecure
 trepafi:mapbox
 http
 nemo64:bootstrap
 less
+insecure
+
