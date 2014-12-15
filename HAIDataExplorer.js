@@ -10,7 +10,7 @@ if (Meteor.isClient) {
   var HAI_4_IND = (747.044 / 401); + 0.95587
   var HAI_5_IND = (1595.41 / 1373); + 0.8025377
   var HAI_6_IND = (2531.17/ 2784); + 0.4947708
-  var NURSE_IND = 22.64144 //+ 4.375094
+  var NURSE_IND = 22.64144 + 4.375094
 
   //Default zip in Session to initialize without errors. 
   // Session.set('zip', '46311')
@@ -286,10 +286,7 @@ if (Meteor.isServer) {
 
     if (HAI.find().count() === 0) {
 
-
-
-
-      console.log("starting cancer data upload");
+        console.log("starting cancer data upload");
 
         var cancer_data = JSON.parse(Assets.getText('cancer.json'));
         _.each(cancer_data, function(hospital) {
@@ -480,6 +477,202 @@ if (Meteor.isServer) {
                       { multi: true }
                     );
         });
+        
+
+
+        console.log("starting cancer data upload");
+
+        var cancer_data = JSON.parse(Assets.getText('cancer.json'));
+        _.each(cancer_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase();
+
+          HAI.update({ name: hospital_name },
+                     { $set: { cancer: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting cardiology data upload");
+
+        var cardiology_data = JSON.parse(Assets.getText('cardiology.json'));
+        _.each(cardiology_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { cardiology: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting diabetes data upload");
+
+        var diabetes_data = JSON.parse(Assets.getText('diabetes.json'));
+        _.each(diabetes_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { diabetes: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting ent data upload");
+
+        var ent_data = JSON.parse(Assets.getText('ent.json'));
+        _.each(ent_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { ent: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting gastro data upload");
+
+        var gastro_data = JSON.parse(Assets.getText('gastro.json'));
+        _.each(gastro_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { gastro: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting geriatric data upload");
+
+        var geriatric_data = JSON.parse(Assets.getText('geriatric.json'));
+        _.each(geriatric_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { geriatric: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting gynecology data upload");
+
+        var gynecology_data = JSON.parse(Assets.getText('gynecology.json'));
+        _.each(gynecology_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { gynecology: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting nephrology data upload");
+
+        var nephrology_data = JSON.parse(Assets.getText('nephrology.json'));
+        _.each(nephrology_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { nephrology: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting neuro data upload");
+
+        var neuro_data = JSON.parse(Assets.getText('neuro.json'));
+        _.each(neuro_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { neuro: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting ophthalmology data upload");
+
+        var ophthalmology_data = JSON.parse(Assets.getText('ophthalmology.json'));
+        _.each(ophthalmology_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { ophthalmology: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting orthopedics data upload");
+
+        var orthopedics_data = JSON.parse(Assets.getText('orthopedics.json'));
+        _.each(orthopedics_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { orthopedics: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting psychiatry data upload");
+
+        var psychiatry_data = JSON.parse(Assets.getText('psychiatry.json'));
+        _.each(psychiatry_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { psychiatry: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting pulmonology data upload");
+
+        var pulmonology_data = JSON.parse(Assets.getText('pulmonology.json'));
+        _.each(pulmonology_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { pulmonology: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting rehabilitation data upload");
+
+        var rehabilitation_data = JSON.parse(Assets.getText('rehabilitation.json'));
+        _.each(rehabilitation_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { rehabilitation: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting rheumatology data upload");
+
+        var rheumatology_data = JSON.parse(Assets.getText('rheumatology.json'));
+        _.each(rheumatology_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { rheumatology: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+        console.log("starting urology data upload");
+
+        var urology_data = JSON.parse(Assets.getText('urology.json'));
+        _.each(urology_data, function(hospital) {
+          hospital_name = hospital.hospital_name.toUpperCase()
+
+          HAI.update({ name: hospital_name },
+                     { $set: { urology: hospital.score } },
+                      { multi: true }
+                    );
+        });
+
+
       }
 
 
